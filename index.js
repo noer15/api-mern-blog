@@ -47,9 +47,7 @@ app.use("/api/v1/blog", blogRoutes);
 app.use("/images", express.static(__dirname + "/images")); //Serves resources from public folder
 
 mongoose
-  .connect(
-    "mongodb+srv://noer15:LtKWs9zHeDbhrRpN@cluster0.kfrnb.mongodb.net/mern-blog?retryWrites=true&w=majority"
-  )
+  .connect("xxx")
   .then(() => {
     let port = 5000;
     app.listen(port, () => {
