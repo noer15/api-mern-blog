@@ -46,12 +46,12 @@ app.use("/api/v1/blog", blogRoutes);
 // images
 app.use("/images", express.static(__dirname + "/images")); //Serves resources from public folder
 
+var port = process.env.PORT || 8080;
 mongoose
   .connect(
     "mongodb+srv://noer15:LtKWs9zHeDbhrRpN@cluster0.kfrnb.mongodb.net/mern-blog?retryWrites=true&w=majority"
   )
   .then(() => {
-    let port = 5000;
     app.listen(port, () => {
       console.log(`Server started on port ${port}`);
       console.log("mongodb connect");
