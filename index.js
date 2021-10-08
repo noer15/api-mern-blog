@@ -3,6 +3,8 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const mongoose = require("mongoose");
 const multer = require("multer");
+require("dotenv").config();
+var MONGODB_URL = process.env.MONGODB_URL;
 
 const app = express();
 app.use(cors());
@@ -48,9 +50,7 @@ app.use("/images", express.static(__dirname + "/images")); //Serves resources fr
 
 var port = process.env.PORT || 8080;
 mongoose
-  .connect(
-    "mongodb+srv://noer15:LtKWs9zHeDbhrRpN@cluster0.kfrnb.mongodb.net/mern-blog?retryWrites=true&w=majority"
-  )
+  .connect(MONGODB_URL)
   .then(() => {
     app.listen(port, () => {
       console.log(`Server started on port ${port}`);
