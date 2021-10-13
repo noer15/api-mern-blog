@@ -56,7 +56,7 @@ app.use("/api/v1", candidateRoute);
 // images
 app.use("/images", express.static(__dirname + "/images")); //Serves resources from public folder
 
-var port = process.env.PORT || 8080;
+var port = process.env.PORT || 5000;
 mongoose
   .connect(MONGODB_URL)
   .then(() => {

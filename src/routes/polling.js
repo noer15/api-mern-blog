@@ -6,6 +6,6 @@ const pollingController = new polling();
 
 // [POST] = /api/v1/polling/
 router.post("/posts-polling", pollingController.postPolling);
-// router.get("/get-polling", blogController.getBlogPost);
+router.get("/get-polling", pollingController.getPollingStatistic);
 
 module.exports = router;
