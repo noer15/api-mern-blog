@@ -45,6 +45,14 @@ app.use("/api/v1/auth", authRoutes);
 const blogRoutes = require("./src/routes/blog");
 app.use("/api/v1/blog", blogRoutes);
 
+// data polling
+const pollingRoutes = require("./src/routes/polling");
+app.use("/api/v1/polling", pollingRoutes);
+
+// data candidate
+const candidateRoute = require("./src/routes/candidate");
+app.use("/api/v1", candidateRoute);
+
 // images
 app.use("/images", express.static(__dirname + "/images")); //Serves resources from public folder
 
