@@ -1,4 +1,6 @@
 const pollingModel = require("../models/polling");
+const { Parser } = require("json2csv");
+const json2csvParser = new Parser();
 
 class polling {
   async postPolling(req, res) {
@@ -84,6 +86,70 @@ class polling {
         return res.status(401).json({ message: error.message });
       });
   }
+
+  async getDataPolling(req, res) {
+    await pollingModel
+      .aggregate([
+        {
+          $lookup: {
+            from: "candidates",
+            localField: "name_candidate",
+            foreignField: "_id",
+            as: "candidate",
+          },
+        },
+      ])
+      .then((item) => {
+        return res.json({
+          data: item,
+        });
+      })
+      .catch((e) => console.log(e));
+  }
+
+  async backupPolling(req, res, next) {
+    await pollingModel
+      .aggregate([
+        {
+          $lookup: {
+            from: "candidates",
+            localField: "name_candidate",
+            foreignField: "_id",
+            as: "candidate",
+          },
+        },
+      ])
+      .then((result) => {
+        let data = [];
+        result.map((item) => {
+          data.push({
+            name: item.name,
+            company: item.company,
+            phone: item.phone,
+            candidate: item.candidate[0].name,
+            date: formatDate(item.createdAt),
+          });
+        });
+        const csv = json2csvParser.parse(data);
+        res.send(csv);
+      })
+      .catch((e) => {
+        next(e);
+      });
+  }
+}
+
+function formatDate(value) {
+  let options = {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+    hour: "numeric",
+    minute: "numeric",
+    second: "numeric",
+  };
+  let date = new Date(value).toLocaleString("id-ID", options);
+  return date;
 }
 
 module.exports = polling;
